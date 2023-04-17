@@ -6,50 +6,42 @@ class Controller:
         self.service = Service()
 
     def fill_data(self):
-        data = [
-            ("History", "Ancient Civilizations",
-             "Which ancient civilization is known for building the Great Pyramid of Giza?",
-             ["Rome", "Athens", "Constantinople", "Alexandria"]),
-            ("History", "Ancient Civilizations",
-             "What is the name of the ancient civilization that developed the first writing system?",
-             ["Egypt", "Greece", "Rome", "Persia"]),
-            ("History", "Ancient Civilizations", "What was the capital of the Roman Empire?",
-             ["Sumerians", "Mayans", "Aztecs", "Incas"]),
-            ("History", "Ancient Civilizations", "Who was the first emperor of China?",
-             ["Qin Shi Huang", "Han Wudi", "Tang Taizong", "Song Huizong"]),
-            ("Science", "Biology",
-             "What is the process by which green plants and some other organisms use sunlight to synthesize foods with the help of chlorophyll?",
-             ["Photosynthesis", "Respiration", "Digestion", "Fermentation"]),
-            ("Science", "Biology", "What is the largest organ in the human body?", ["Skin", "Heart", "Liver", "Brain"]),
-            ("Science", "Biology",
-             "What is the name of the fluid that transports oxygen and nutrients to cells in the human body?",
-             ["Blood", "Lymph", "Saliva", "Semen"]),
-            ("Science", "Biology",
-             "What is the name of the organelle that is responsible for protein synthesis in cells?",
-             ["Ribosome", "Mitochondrion", "Golgi Apparatus", "Endoplasmic Reticulum"]),
-            (
-            "Science", "Biology", "What is the process by which a single cell divides into two or more daughter cells?",
-            ["Cell Division", "Mitosis", "Meiosis", "Binary Fission"]),
-            ("Geography", "Capitals", "What is the capital of France?", ["Paris", "Madrid", "Berlin", "Rome"]),
-            ("Geography", "Capitals", "What is the capital of Brazil?",
-             ["Brasília", "Rio de Janeiro", "São Paulo", "Belo Horizonte"]),
-            ("Geography", "Capitals", "What is the capital of Japan?", ["Tokyo", "Seoul", "Beijing", "Taipei"]),
-            ("Geography", "Capitals", "What is the capital of Canada?", ["Ottawa", "Toronto", "Montreal", "Vancouver"]),
-            ("Geography", "Capitals", "What is the capital of Australia?",
-             ["Canberra", "Sydney", "Melbourne", "Brisbane"]),
-        ]
-        for category, subcategory, question, answers in data:
-            self.service.create_question(category, subcategory, question, answers)
+        self.service.create_question('Matematyka', 'Algebra', 'Jakie jest rozwiązanie równania x^2 = 4?', [
+            {'content': 'x = 2', 'is_correct': True},
+            {'content': 'x = -2', 'is_correct': True},
+            {'content': 'x = 4', 'is_correct': False},
+            {'content': 'x = -4', 'is_correct': False},
+        ])
+
+        self.service.create_question('Matematyka', 'Geometria', 'Jak obliczyć pole koła o promieniu 5?', [
+            {'content': 'P = 5 * pi', 'is_correct': False},
+            {'content': 'P = 25 * pi', 'is_correct': True},
+            {'content': 'P = 10 * pi', 'is_correct': False},
+            {'content': 'P = 50 * pi', 'is_correct': False},
+        ])
+
+        self.service.create_question('Informatyka', 'Programowanie', 'Co oznacza skrót "OOP"?', [
+            {'content': 'Object-Oriented Programming', 'is_correct': True},
+            {'content': 'Object-Oriented Protocol', 'is_correct': False},
+            {'content': 'Object-Oriented Procedure', 'is_correct': False},
+            {'content': 'Object-Oriented Practice', 'is_correct': False},
+        ])
 
     def create_question(self):
         answers = []
         self.__print_properties(self.service.get_categories(), "kategorie")
         category = input("Podaj kategorie: ")
-        self.__print_properties(self.service.get_subcategories(), "podkategorie")
+        self.__print_properties(self.service.get_subcategories(category), "podkategorie")
         subcategory = input("Podaj podkategorie: ")
         question = input("Podaj pytanie: ")
         for i in range(4):
-            answer = input("Podaj odpowiedz: ")
+            content = input("Podaj odpowiedz: ")
+            is_correct_user = input("Czy prawidlowa? (T/F)")
+            is_correct = is_correct_user == 'T'
+            answer = {
+                'content': content,
+                'is_correct': is_correct
+            }
             answers.append(answer)
 
         self.service.create_question(category, subcategory, question, answers)

@@ -40,5 +40,5 @@ if __name__ == '__main__':
 # - solving generated tests
 # - provide DTOs
 # - create DAOs
+# - more complex logic
 # - create GUI interface
-# - complicate logic
