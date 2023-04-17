@@ -60,9 +60,11 @@ class Controller:
         self.service.delete_category(name)
 
     def delete_subcategory(self):
-        self.__print_properties(self.service.get_subcategories(), "podkategorie")
-        name = input("Podaj nazwe: ")
-        self.service.delete_subcategory(name)
+        self.__print_properties(self.service.get_categories(), "kategorie")
+        category_name = input("Podaj nazwe kategorii: ")
+        self.__print_properties(self.service.get_subcategories(category_name), "podkategorie")
+        subcategory_name = input("Podaj nazwe podkategorii: ")
+        self.service.delete_subcategory_by_name(subcategory_name, category_name)
 
     def delete_question(self):
         name = input("Podaj nazwe: ")
