@@ -15,13 +15,13 @@ class Service:
     def create_question(self, category, subcategory, question, answers_list):
         category_entity = self.__find_category_by_name(category)
         if category_entity is None:
-            category_id = self.__create_category(category)
+            category_id = self.__create_category(category).get('Category_id')
         else:
             category_id = category_entity.get('Category_id')
 
         subcategory_entity = self.__find_subcategory_by_name_and_category_id(subcategory, category_id)
         if subcategory_entity is None:
-            subcategory_id = self.__create_subcategory(subcategory, category_id)
+            subcategory_id = self.__create_subcategory(subcategory, category_id).get('Subcategory_id')
         else:
             subcategory_id = subcategory_entity.get('Subcategory_id')
 
@@ -33,6 +33,8 @@ class Service:
     def generate_test(self, category, subcategory, num_questions):
         category_temp = self.__find_category_by_name(category)
         subcategory_temp = self.__find_subcategory_by_name_and_category_id(subcategory, category_temp.get('Category_id'))
+        if subcategory_temp is None:
+            return None
         test_questions = [question for question in self.questions
                           if question['Subcategory_id'] == subcategory_temp.get('Subcategory_id')]
         random.shuffle(test_questions)
@@ -82,7 +84,8 @@ class Service:
 
     def get_subcategories(self, category_name):
         category_temp = self.__find_category_by_name(category_name)
-        return [subcategory['Name'] for subcategory in self.subcategories if subcategory['Category_id'] == category_temp.get('Category_id')]
+        if category_temp is not None:
+            return [subcategory['Name'] for subcategory in self.subcategories if subcategory['Category_id'] == category_temp.get('Category_id')]
 
     def __find_category_by_name(self, category):
         for category_temp in self.categories:
@@ -94,7 +97,7 @@ class Service:
         for subcategory_temp in self.subcategories:
             if subcategory_temp.get('Category_id') == category_id and subcategory_temp.get('Name') == subcategory:
                 return subcategory_temp
-        return self.__create_subcategory(subcategory, category_id)
+        return None
 
     def __find_subcategories_by_category_id(self, category_id):
         subcategories = []

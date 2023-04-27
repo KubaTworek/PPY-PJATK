@@ -7,6 +7,7 @@ def print_menu():
     print("3. Usun podkategorie")
     print("4. Usun pytanie")
     print("5. Wygeneruj test")
+    print("6. Wyjdz z aplikacji")
     print()
 
 
@@ -19,7 +20,8 @@ if __name__ == '__main__':
         2: user_controller.delete_category,
         3: user_controller.delete_subcategory,
         4: user_controller.delete_question,
-        5: user_controller.generate_test
+        5: user_controller.generate_test,
+        6: user_controller.quit_app
     }
 
     while True:
@@ -37,7 +39,6 @@ if __name__ == '__main__':
             print("Nieznana opcja, spróbuj ponownie.")
 
 # TODO:
-# - solving generated tests
 # - provide DTOs
 # - create DAOs
 # - more complex logic

@@ -1,3 +1,5 @@
+import sys
+
 from service import Service
 
 
@@ -56,12 +58,37 @@ class Controller:
     def generate_test(self):
         self.__print_properties(self.service.get_categories(), "kategorie")
         category = input("Podaj kategorie: ")
+        if not self.service.get_subcategories(category):
+            print('Nie ma takiej kategorii!\n')
+            return 0
         self.__print_properties(self.service.get_subcategories(category), "podkategorie")
         subcategory = input("Podaj podkategorie: ")
         num_questions = int(input("Podaj ilosc pytan: "))
-        print(self.service.generate_test(category, subcategory, num_questions))
         test = self.service.generate_test(category, subcategory, num_questions)
+        if test is None:
+            print('Nie ma takiej podkategorii!\n')
+            return 0
         self.__resolve_test(test)
+
+    def delete_category(self):
+        self.__print_properties(self.service.get_categories(), "kategorie")
+        name = input("Podaj nazwe: ")
+        self.service.delete_category(name)
+
+    def delete_subcategory(self):
+        self.__print_properties(self.service.get_categories(), "kategorie")
+        category_name = input("Podaj nazwe kategorii: ")
+        self.__print_properties(self.service.get_subcategories(category_name), "podkategorie")
+        subcategory_name = input("Podaj nazwe podkategorii: ")
+        self.service.delete_subcategory_by_name(subcategory_name, category_name)
+
+    def delete_question(self):
+        name = input("Podaj nazwe: ")
+        self.service.delete_question(name)
+
+    def quit_app(self):
+        print('Dzieki za skorzystanie z naszej aplikacji!')
+        sys.exit(0)
 
     def __resolve_test(self, test):
         score = 0
@@ -87,22 +114,6 @@ class Controller:
             if answer.get('Is_correct') and user_answer == str(answer.get('Answer_id')):
                 return True
         return False
-
-    def delete_category(self):
-        self.__print_properties(self.service.get_categories(), "kategorie")
-        name = input("Podaj nazwe: ")
-        self.service.delete_category(name)
-
-    def delete_subcategory(self):
-        self.__print_properties(self.service.get_categories(), "kategorie")
-        category_name = input("Podaj nazwe kategorii: ")
-        self.__print_properties(self.service.get_subcategories(category_name), "podkategorie")
-        subcategory_name = input("Podaj nazwe podkategorii: ")
-        self.service.delete_subcategory_by_name(subcategory_name, category_name)
-
-    def delete_question(self):
-        name = input("Podaj nazwe: ")
-        self.service.delete_question(name)
 
     def __print_properties(self, properties, name):
         print()
