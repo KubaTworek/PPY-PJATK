@@ -153,7 +153,7 @@ class Service:
         answer_entity = {
             'Answer_id': self.__answer_id + 1,
             'Answer': answer.get('content'),
-            'IsCorrect': answer.get('is_correct'),
+            'Is_correct': answer.get('is_correct'),
             'Question_id': question_id
         }
         self.__answer_id += 1
