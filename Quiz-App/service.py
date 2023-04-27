@@ -36,7 +36,15 @@ class Service:
         test_questions = [question for question in self.questions
                           if question['Subcategory_id'] == subcategory_temp.get('Subcategory_id')]
         random.shuffle(test_questions)
-        return test_questions[:num_questions]
+        questions_response = []
+        for question_temp in test_questions:
+            answers = self.__find_answers_by_question(question_temp)
+            question_response = {
+                'Question': question_temp.get('Question'),
+                'Answers': answers
+            }
+            questions_response.append(question_response)
+        return questions_response[:num_questions]
 
     def delete_category(self, name):
         category_temp = self.__find_category_by_name(name)
@@ -107,6 +115,9 @@ class Service:
             question_temp.append([answer for answer in self.answers if answer['Question_id'] != question_temp.get('Question_id')])
         return answers
 
+    def __find_answers_by_question(self, question):
+        return [answer for answer in self.answers if answer['Question_id'] == question.get('Question_id')]
+
     def __create_category(self, category):
         category_entity = {
             'Category_id': self.__category_id + 1,
@@ -142,4 +153,5 @@ class Service:
             'IsCorrect': answer.get('is_correct'),
             'Question_id': question_id
         }
+        self.__answer_id += 1
         self.answers.append(answer_entity)

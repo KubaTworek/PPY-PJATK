@@ -20,6 +20,13 @@ class Controller:
             {'content': 'P = 50 * pi', 'is_correct': False},
         ])
 
+        self.service.create_question('Matematyka', 'Geometria', 'Jak obliczyć pole koła o promieniu 4?', [
+            {'content': 'P = 4 * pi', 'is_correct': False},
+            {'content': 'P = 16 * pi', 'is_correct': True},
+            {'content': 'P = 10 * pi', 'is_correct': False},
+            {'content': 'P = 50 * pi', 'is_correct': False},
+        ])
+
         self.service.create_question('Informatyka', 'Programowanie', 'Co oznacza skrót "OOP"?', [
             {'content': 'Object-Oriented Programming', 'is_correct': True},
             {'content': 'Object-Oriented Protocol', 'is_correct': False},
@@ -53,6 +60,33 @@ class Controller:
         subcategory = input("Podaj podkategorie: ")
         num_questions = int(input("Podaj ilosc pytan: "))
         print(self.service.generate_test(category, subcategory, num_questions))
+        test = self.service.generate_test(category, subcategory, num_questions)
+        self.__resolve_test(test)
+
+    def __resolve_test(self, test):
+        score = 0
+        for question in test:
+            self.__print_question(question)
+            if self.__is_answer_correct(question):
+                print('Correct!\n')
+                score += 1
+            else:
+                print('Incorrect!\n')
+        user_name = input('Your name: ')
+        with open('scores.txt', 'a') as f:
+            f.write(f'{user_name}: {score}\n')
+
+    def __print_question(self, question):
+        print(question.get('Question'))
+        for answer in question.get('Answers'):
+            print(str(answer.get('Answer_id')) + '. ' + answer.get('Answer'))
+
+    def __is_answer_correct(self, question):
+        user_answer = input('Your answer: ')
+        for answer in question.get('Answers'):
+            if answer.get('Is_correct') and user_answer == str(answer.get('Answer_id')):
+                return True
+        return False
 
     def delete_category(self):
         self.__print_properties(self.service.get_categories(), "kategorie")
