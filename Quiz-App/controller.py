@@ -38,22 +38,22 @@ class Controller:
 
     def create_question(self):
         categories = self.service.get_categories()
-        category = self.__get_user_input(categories, "kategorie", "Podaj kategorie: ")
+        category = self.__get_user_input_with_properties(categories, "kategorie", "Podaj kategorie: ")
         subcategories = self.service.get_subcategories(category)
-        subcategory = self.__get_user_input(subcategories, "podakategorie", "Podaj podkategorie: ")
+        subcategory = self.__get_user_input_with_properties(subcategories, "podakategorie", "Podaj podkategorie: ")
         question = self.__get_user_input("Podaj pytanie: ")
         answers = self.__create_answers()
         self.service.create_question(category, subcategory, question, answers)
 
     def generate_test(self):
         categories = self.service.get_categories()
-        category = self.__get_user_input(categories, "kategorie", "Podaj kategorie: ")
+        category = self.__get_user_input_with_properties(categories, "kategorie", "Podaj kategorie: ")
         subcategories = self.service.get_subcategories(category)
 
         if not subcategories:
             print('Nie ma takiej kategorii!\n')
             return 0
-        subcategory = self.__get_user_input(subcategories, "podakategorie", "Podaj podkategorie: ")
+        subcategory = self.__get_user_input_with_properties(subcategories, "podakategorie", "Podaj podkategorie: ")
         num_questions = self.__get_user_input_int("Podaj ilosc pytan: ")
         test = self.service.generate_test(category, subcategory, num_questions)
 
@@ -64,7 +64,7 @@ class Controller:
 
     def delete_category(self):
         categories = self.service.get_categories()
-        name = self.__get_user_input(categories, "kategorie", "Podaj nazwe: ")
+        name = self.__get_user_input_with_properties(categories, "kategorie", "Podaj nazwe: ")
 
         if name not in categories:
             print(f"Nie ma kategorii o nazwie {name}.\n")
@@ -74,9 +74,9 @@ class Controller:
 
     def delete_subcategory(self):
         categories = self.service.get_categories()
-        category_name = self.__get_user_input(categories, "kategorie", "Podaj nazwe kategorii: ")
+        category_name = self.__get_user_input_with_properties(categories, "kategorie", "Podaj nazwe kategorii: ")
         subcategories = self.service.get_subcategories(category_name)
-        subcategory_name = self.__get_user_input(subcategories, "podkategorie", "Podaj nazwe subkategorii: ")
+        subcategory_name = self.__get_user_input_with_properties(subcategories, "podkategorie", "Podaj nazwe subkategorii: ")
         self.service.delete_subcategory_by_name(subcategory_name, category_name)
 
     def delete_question(self):
@@ -90,9 +90,9 @@ class Controller:
     def __create_answers(self):
         answers = []
         for i in range(4):
-            content = self.__get_user_input_int("Podaj odpowiedz: ")
+            content = self.__get_user_input("Podaj odpowiedz: ")
             is_correct_user = self.__get_user_input("Czy prawidlowa? (T/F)")
-            is_correct = is_correct_user == 'T'
+            is_correct = is_correct_user.lower() == 't'
             answer = {
                 'content': content,
                 'is_correct': is_correct
@@ -116,7 +116,7 @@ class Controller:
     def __print_question(self, question):
         print(question.get('Question'))
         for answer in question.get('Answers'):
-            print(str(answer.get('Answer_id')) + '. ' + answer.get('Answer'))
+            print(str(answer.get('Answer_id')) + '. ' + str(answer.get('Answer')))
 
     def __is_answer_correct(self, question):
         user_answer = input('Your answer: ')
@@ -137,7 +137,7 @@ class Controller:
     def __get_user_input(self, prompt: str) -> str:
         return input(prompt)
 
-    def __get_user_input(self, properties, name, prompt: str) -> str:
+    def __get_user_input_with_properties(self, properties, name, prompt: str) -> str:
         self.__print_properties(properties, name)
         return input(prompt)
 
