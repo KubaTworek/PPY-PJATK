@@ -1,6 +1,6 @@
 import sys
 
-from service import Service
+from SqlServerService import Service
 
 
 class Controller:

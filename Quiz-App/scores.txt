@@ -1,2 +1,8 @@
 Kuba: 1
-Janusz: 0Jakub: 2
+Janusz: 0
+Jakub: 2
+Test: 1
+test2: 1
+Kuba: 1
+xd: 1
+xddd: 2

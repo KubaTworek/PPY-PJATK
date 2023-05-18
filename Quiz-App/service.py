@@ -80,5 +80,3 @@ class Service:
         category_temp = self.repository.find_category_by_name(category_name)
         if category_temp is not None:
             return [subcategory['Name'] for subcategory in self.repository.subcategories if subcategory['Category_id'] == category_temp.get('Category_id')]
-
-
