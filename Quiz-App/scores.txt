@@ -6,3 +6,5 @@ test2: 1
 Kuba: 1
 xd: 1
 xddd: 2
+xd: 1
+xd: 0

@@ -1,4 +1,4 @@
-from controller import Controller
+from BasicController import Controller
 
 
 def print_menu():
@@ -13,7 +13,7 @@ def print_menu():
 
 if __name__ == '__main__':
     user_controller = Controller()
-   # user_controller.fill_data()
+    user_controller.fill_data()
 
     switch = {
         1: user_controller.create_question,

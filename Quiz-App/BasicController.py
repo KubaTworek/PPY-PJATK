@@ -1,6 +1,6 @@
 import sys
 
-from SqlServerService import Service
+from Service import Service
 
 
 class Controller:
@@ -76,7 +76,8 @@ class Controller:
         categories = self.service.get_categories()
         category_name = self.__get_user_input_with_properties(categories, "kategorie", "Podaj nazwe kategorii: ")
         subcategories = self.service.get_subcategories(category_name)
-        subcategory_name = self.__get_user_input_with_properties(subcategories, "podkategorie", "Podaj nazwe subkategorii: ")
+        subcategory_name = self.__get_user_input_with_properties(subcategories, "podkategorie",
+                                                                 "Podaj nazwe subkategorii: ")
         self.service.delete_subcategory_by_name(subcategory_name, category_name)
 
     def delete_question(self):

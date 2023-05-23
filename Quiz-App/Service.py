@@ -1,6 +1,6 @@
 import random
 
-from SqlServerRepository import Repository
+from BasicRepository import Repository
 
 
 class Service:
@@ -33,14 +33,14 @@ class Service:
         test_questions = self.repository.find_questions_by_subcategories([subcategory_temp])
         random.shuffle(test_questions)
         questions_response = []
-        for question_temp in test_questions[:num_questions]:
+        for question_temp in test_questions:
             answers = self.repository.find_answers_by_question(question_temp['Question_id'])
             question_response = {
                 'Question': question_temp['Question'],
                 'Answers': answers
             }
             questions_response.append(question_response)
-        return questions_response
+        return questions_response[:num_questions]
 
     def delete_category(self, name):
         category_temp = self.repository.find_category_by_name(name)

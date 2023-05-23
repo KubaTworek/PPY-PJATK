@@ -102,7 +102,7 @@ class Repository:
         rows = self.cursor.fetchall()
         answers = []
         for row in rows:
-            answer_id, answer_text, answer_question_id, answer_is_correct = row
+            answer_id, answer_text, answer_is_correct, answer_question_id = row
             answer = {
                 'Answer_id': answer_id,
                 'Answer': answer_text,
