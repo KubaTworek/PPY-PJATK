@@ -112,6 +112,18 @@ class Repository:
             answers.append(answer)
         return answers
 
+    def find_question_by_text(self, question_text):
+        self.cursor.execute("SELECT * FROM Questions WHERE Question = ?", (question_text,))
+        row = self.cursor.fetchone()
+        if row:
+            question_id, question_text, question_subcategory_id = row
+            return {
+                'Question_id': question_id,
+                'Question': question_text,
+                'Subcategory_id': question_subcategory_id
+            }
+        return None
+
     def delete_category(self, category_id):
         self.cursor.execute("DELETE FROM Subcategories WHERE Category_id = ?", (category_id,))
         self.cursor.execute(
@@ -145,18 +157,6 @@ class Repository:
             (category_name,))
         subcategories = [row.Name for row in self.cursor.fetchall()]
         return subcategories
-
-    def find_question_by_text(self, question_text):
-        self.cursor.execute("SELECT * FROM Questions WHERE Question = ?", (question_text,))
-        row = self.cursor.fetchone()
-        if row:
-            question_id, question_text, question_subcategory_id = row
-            return {
-                'Question_id': question_id,
-                'Question': question_text,
-                'Subcategory_id': question_subcategory_id
-            }
-        return None
 
     def close(self):
         self.cursor.close()

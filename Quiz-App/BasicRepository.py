@@ -1,9 +1,5 @@
 class Repository:
     def __init__(self):
-        self.__question_id = 0
-        self.__category_id = 0
-        self.__subcategory_id = 0
-        self.__answer_id = 0
         self.questions = []
         self.categories = []
         self.subcategories = []
@@ -11,41 +7,37 @@ class Repository:
 
     def create_category(self, category):
         category_entity = {
-            'Category_id': self.__category_id + 1,
+            'Category_id': len(self.categories) + 1,
             'Name': category
         }
-        self.__category_id += 1
         self.categories.append(category_entity)
         return category_entity.get('Category_id')
 
     def create_subcategory(self, subcategory, category_id):
         subcategory_entity = {
-            'Subcategory_id': self.__subcategory_id + 1,
+            'Subcategory_id': len(self.subcategories) + 1,
             'Name': subcategory,
             'Category_id': category_id
         }
-        self.__subcategory_id += 1
         self.subcategories.append(subcategory_entity)
         return subcategory_entity.get('Subcategory_id')
 
     def create_question(self, question_text, subcategory_id):
         question_entity = {
-            'Question_id': self.__question_id + 1,
+            'Question_id': len(self.questions) + 1,
             'Question': question_text,
             'Subcategory_id': subcategory_id
         }
-        self.__question_id += 1
         self.questions.append(question_entity)
         return question_entity.get('Question_id')
 
     def create_answer(self, answer, question_id, is_correct):
         answer_entity = {
-            'Answer_id': self.__answer_id + 1,
+            'Answer_id': len(self.answers) + 1,
             'Answer': answer,
             'Is_correct': is_correct,
             'Question_id': question_id
         }
-        self.__answer_id += 1
         self.answers.append(answer_entity)
         return answer_entity.get('Answer_id')
 
@@ -82,6 +74,9 @@ class Repository:
             if answer_temp['Question_id'] == question_id:
                 answers.append(answer_temp)
         return answers
+
+    def find_question_by_text(self, question_text):
+        return [question for question in self.questions if question['Question'] == question_text]
 
     def delete_category(self, category_id):
         category_temp = self.__find_category_by_id(category_id)
@@ -129,9 +124,6 @@ class Repository:
         if category_temp is not None:
             return [subcategory['Name'] for subcategory in self.subcategories if
                     subcategory['Category_id'] == category_temp.get('Category_id')]
-
-    def find_question_by_text(self, question_text):
-        return [question for question in self.questions if question['Question'] == question_text]
 
     def __find_category_by_id(self, category_id):
         for category_temp in self.categories:
