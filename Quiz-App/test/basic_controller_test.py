@@ -1,7 +1,10 @@
 import unittest
 from unittest.mock import patch
 from io import StringIO
-from BasicController import Controller
+import sys
+
+sys.path.append('C:/Users/kubat/IdeaProjects/PPY-PJATK/Quiz-App')
+from Controller.BasicController import Controller
 
 
 class ControllerTests(unittest.TestCase):

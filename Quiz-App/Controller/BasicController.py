@@ -1,6 +1,6 @@
 import sys
 
-from Service import Service
+from Service.Service import Service
 
 
 class Controller:
@@ -111,7 +111,7 @@ class Controller:
             else:
                 print('Incorrect!\n')
         user_name = self.__get_user_input('Your name: ')
-        with open('scores.txt', 'a') as f:
+        with open('../scores.txt', 'a') as f:
             f.write(f'{user_name}: {score}\n')
 
     def __print_question(self, question):

@@ -1,6 +1,6 @@
 import random
 
-from BasicRepository import Repository
+from Repository.BasicRepository import Repository
 
 
 class Service:

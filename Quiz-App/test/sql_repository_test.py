@@ -1,7 +1,9 @@
 import unittest
 import pyodbc
+import sys
 
-from SqlServerRepository import Repository
+sys.path.append('C:/Users/kubat/IdeaProjects/PPY-PJATK/Quiz-App')
+from Repository.SqlServerRepository import Repository
 
 
 class RepositoryTests(unittest.TestCase):
