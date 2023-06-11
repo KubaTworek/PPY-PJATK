@@ -1,4 +1,4 @@
-from Controller.BasicController import Controller
+from Controller.TkinterController import Controller
 
 
 def print_menu():
