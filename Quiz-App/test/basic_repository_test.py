@@ -1,16 +1,17 @@
 import sys
 import unittest
 
-sys.path.append('C:/Users/kubat/IdeaProjects/PPY-PJATK/Quiz-App')
-
 from Repository.BasicRepository import Repository
+
+sys.path.append('C:/Users/kubat/IdeaProjects/PPY-PJATK/Quiz-App')
 
 
 class BasicRepositoryTests(unittest.TestCase):
 
     def setUp(self):
         self.repository = Repository()
-        self.repository.categories = [{'Category_id': 1, 'Name': 'Category 1'}, {'Category_id': 2, 'Name': 'Category 2'}]
+        self.repository.categories = [{'Category_id': 1, 'Name': 'Category 1'},
+                                      {'Category_id': 2, 'Name': 'Category 2'}]
         self.repository.subcategories = [{'Subcategory_id': 1, 'Name': 'Subcategory 1', 'Category_id': 1},
                                          {'Subcategory_id': 2, 'Name': 'Subcategory 2', 'Category_id': 1},
                                          {'Subcategory_id': 3, 'Name': 'Subcategory 3', 'Category_id': 2}]

@@ -1,9 +1,10 @@
-import unittest
-import pyodbc
 import sys
+import unittest
+
+import pyodbc
+from Repository.SqlServerRepository import Repository
 
 sys.path.append('C:/Users/kubat/IdeaProjects/PPY-PJATK/Quiz-App')
-from Repository.SqlServerRepository import Repository
 
 
 class RepositoryTests(unittest.TestCase):
@@ -17,9 +18,12 @@ class RepositoryTests(unittest.TestCase):
         self.repository.cursor.execute("DROP TABLE Subcategories")
         self.repository.cursor.execute("DROP TABLE Categories")
         self.repository.cursor.execute("CREATE TABLE Categories (Category_id INT, Name VARCHAR(255))")
-        self.repository.cursor.execute("CREATE TABLE Subcategories (Subcategory_id INT, Name VARCHAR(255), Category_id INT)")
-        self.repository.cursor.execute("CREATE TABLE Questions (Question_id INT, Question VARCHAR(255), Subcategory_id INT)")
-        self.repository.cursor.execute("CREATE TABLE Answers (Answer_id INT, Answer VARCHAR(255), Is_correct BIT, Question_id INT)")
+        self.repository.cursor.execute(
+            "CREATE TABLE Subcategories (Subcategory_id INT, Name VARCHAR(255), Category_id INT)")
+        self.repository.cursor.execute(
+            "CREATE TABLE Questions (Question_id INT, Question VARCHAR(255), Subcategory_id INT)")
+        self.repository.cursor.execute(
+            "CREATE TABLE Answers (Answer_id INT, Answer VARCHAR(255), Is_correct BIT, Question_id INT)")
 
     def tearDown(self):
         self.repository.close()
@@ -140,9 +144,12 @@ class RepositoryTests(unittest.TestCase):
 
     def test_find_answers_by_question(self):
         # Given
-        self.repository.cursor.execute("INSERT INTO Questions (Question_id, Question, Subcategory_id) VALUES (1, 'Question 1', 1)")
-        self.repository.cursor.execute("INSERT INTO Answers (Answer_id, Answer, Is_correct, Question_id) VALUES (1, 'Answer 1', 1, 1)")
-        self.repository.cursor.execute("INSERT INTO Answers (Answer_id, Answer, Is_correct, Question_id) VALUES (2, 'Answer 2', 0, 1)")
+        self.repository.cursor.execute(
+            "INSERT INTO Questions (Question_id, Question, Subcategory_id) VALUES (1, 'Question 1', 1)")
+        self.repository.cursor.execute(
+            "INSERT INTO Answers (Answer_id, Answer, Is_correct, Question_id) VALUES (1, 'Answer 1', 1, 1)")
+        self.repository.cursor.execute(
+            "INSERT INTO Answers (Answer_id, Answer, Is_correct, Question_id) VALUES (2, 'Answer 2', 0, 1)")
 
         # When
         answers = self.repository.find_answers_by_question(1)
@@ -160,7 +167,8 @@ class RepositoryTests(unittest.TestCase):
 
     def test_find_question_by_text(self):
         # Given
-        self.repository.cursor.execute("INSERT INTO Questions (Question_id, Question, Subcategory_id) VALUES (1, 'Question 1', 1)")
+        self.repository.cursor.execute(
+            "INSERT INTO Questions (Question_id, Question, Subcategory_id) VALUES (1, 'Question 1', 1)")
 
         # When
         question = self.repository.find_question_by_text('Question 1')
@@ -174,12 +182,18 @@ class RepositoryTests(unittest.TestCase):
     def test_delete_category(self):
         # Given
         self.repository.cursor.execute("INSERT INTO Categories (Category_id, Name) VALUES (1, 'Category 1')")
-        self.repository.cursor.execute("INSERT INTO Subcategories (Subcategory_id, Name, Category_id) VALUES (1, 'Subcategory 1', 1)")
-        self.repository.cursor.execute("INSERT INTO Subcategories (Subcategory_id, Name, Category_id) VALUES (2, 'Subcategory 2', 1)")
-        self.repository.cursor.execute("INSERT INTO Questions (Question_id, Question, Subcategory_id) VALUES (1, 'Question 1', 1)")
-        self.repository.cursor.execute("INSERT INTO Questions (Question_id, Question, Subcategory_id) VALUES (2, 'Question 2', 2)")
-        self.repository.cursor.execute("INSERT INTO Answers (Answer_id, Answer, Is_correct, Question_id) VALUES (1, 'Answer 1', 1, 1)")
-        self.repository.cursor.execute("INSERT INTO Answers (Answer_id, Answer, Is_correct, Question_id) VALUES (2, 'Answer 2', 0, 2)")
+        self.repository.cursor.execute(
+            "INSERT INTO Subcategories (Subcategory_id, Name, Category_id) VALUES (1, 'Subcategory 1', 1)")
+        self.repository.cursor.execute(
+            "INSERT INTO Subcategories (Subcategory_id, Name, Category_id) VALUES (2, 'Subcategory 2', 1)")
+        self.repository.cursor.execute(
+            "INSERT INTO Questions (Question_id, Question, Subcategory_id) VALUES (1, 'Question 1', 1)")
+        self.repository.cursor.execute(
+            "INSERT INTO Questions (Question_id, Question, Subcategory_id) VALUES (2, 'Question 2', 2)")
+        self.repository.cursor.execute(
+            "INSERT INTO Answers (Answer_id, Answer, Is_correct, Question_id) VALUES (1, 'Answer 1', 1, 1)")
+        self.repository.cursor.execute(
+            "INSERT INTO Answers (Answer_id, Answer, Is_correct, Question_id) VALUES (2, 'Answer 2', 0, 2)")
 
         # When
         self.repository.delete_category(1)
@@ -203,10 +217,14 @@ class RepositoryTests(unittest.TestCase):
 
     def test_delete_subcategory(self):
         # Given
-        self.repository.cursor.execute("INSERT INTO Subcategories (Subcategory_id, Name, Category_id) VALUES (1, 'Subcategory 1', 1)")
-        self.repository.cursor.execute("INSERT INTO Subcategories (Subcategory_id, Name, Category_id) VALUES (2, 'Subcategory 2', 1)")
-        self.repository.cursor.execute("INSERT INTO Questions (Question_id, Question, Subcategory_id) VALUES (1, 'Question 1', 1)")
-        self.repository.cursor.execute("INSERT INTO Questions (Question_id, Question, Subcategory_id) VALUES (2, 'Question 2', 2)")
+        self.repository.cursor.execute(
+            "INSERT INTO Subcategories (Subcategory_id, Name, Category_id) VALUES (1, 'Subcategory 1', 1)")
+        self.repository.cursor.execute(
+            "INSERT INTO Subcategories (Subcategory_id, Name, Category_id) VALUES (2, 'Subcategory 2', 1)")
+        self.repository.cursor.execute(
+            "INSERT INTO Questions (Question_id, Question, Subcategory_id) VALUES (1, 'Question 1', 1)")
+        self.repository.cursor.execute(
+            "INSERT INTO Questions (Question_id, Question, Subcategory_id) VALUES (2, 'Question 2', 2)")
 
         # When
         self.repository.delete_subcategory(1)
@@ -222,10 +240,14 @@ class RepositoryTests(unittest.TestCase):
 
     def test_delete_question(self):
         # Given
-        self.repository.cursor.execute("INSERT INTO Questions (Question_id, Question, Subcategory_id) VALUES (1, 'Question 1', 1)")
-        self.repository.cursor.execute("INSERT INTO Questions (Question_id, Question, Subcategory_id) VALUES (2, 'Question 2', 1)")
-        self.repository.cursor.execute("INSERT INTO Answers (Answer_id, Answer, Is_correct, Question_id) VALUES (1, 'Answer 1', 1, 1)")
-        self.repository.cursor.execute("INSERT INTO Answers (Answer_id, Answer, Is_correct, Question_id) VALUES (2, 'Answer 2', 0, 2)")
+        self.repository.cursor.execute(
+            "INSERT INTO Questions (Question_id, Question, Subcategory_id) VALUES (1, 'Question 1', 1)")
+        self.repository.cursor.execute(
+            "INSERT INTO Questions (Question_id, Question, Subcategory_id) VALUES (2, 'Question 2', 1)")
+        self.repository.cursor.execute(
+            "INSERT INTO Answers (Answer_id, Answer, Is_correct, Question_id) VALUES (1, 'Answer 1', 1, 1)")
+        self.repository.cursor.execute(
+            "INSERT INTO Answers (Answer_id, Answer, Is_correct, Question_id) VALUES (2, 'Answer 2', 0, 2)")
 
         # When
         self.repository.delete_question(1)
@@ -241,8 +263,10 @@ class RepositoryTests(unittest.TestCase):
 
     def test_delete_answer(self):
         # Given
-        self.repository.cursor.execute("INSERT INTO Answers (Answer_id, Answer, Is_correct, Question_id) VALUES (1, 'Answer 1', 1, 1)")
-        self.repository.cursor.execute("INSERT INTO Answers (Answer_id, Answer, Is_correct, Question_id) VALUES (2, 'Answer 2', 0, 1)")
+        self.repository.cursor.execute(
+            "INSERT INTO Answers (Answer_id, Answer, Is_correct, Question_id) VALUES (1, 'Answer 1', 1, 1)")
+        self.repository.cursor.execute(
+            "INSERT INTO Answers (Answer_id, Answer, Is_correct, Question_id) VALUES (2, 'Answer 2', 0, 1)")
 
         # When
         self.repository.delete_answer(1)
@@ -268,8 +292,10 @@ class RepositoryTests(unittest.TestCase):
     def test_get_subcategories(self):
         # Given
         self.repository.cursor.execute("INSERT INTO Categories (Category_id, Name) VALUES (1, 'Category 1')")
-        self.repository.cursor.execute("INSERT INTO Subcategories (Subcategory_id, Name, Category_id) VALUES (1, 'Subcategory 1', 1)")
-        self.repository.cursor.execute("INSERT INTO Subcategories (Subcategory_id, Name, Category_id) VALUES (2, 'Subcategory 2', 1)")
+        self.repository.cursor.execute(
+            "INSERT INTO Subcategories (Subcategory_id, Name, Category_id) VALUES (1, 'Subcategory 1', 1)")
+        self.repository.cursor.execute(
+            "INSERT INTO Subcategories (Subcategory_id, Name, Category_id) VALUES (2, 'Subcategory 2', 1)")
 
         # When
         subcategories = self.repository.get_subcategories('Category 1')
