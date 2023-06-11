@@ -3,9 +3,8 @@ import unittest
 from io import StringIO
 from unittest.mock import patch
 
-from Controller.BasicController import Controller
-
 sys.path.append('C:/Users/kubat/IdeaProjects/PPY-PJATK/Quiz-App')
+from Controller.BasicController import Controller
 
 
 class ControllerTests(unittest.TestCase):

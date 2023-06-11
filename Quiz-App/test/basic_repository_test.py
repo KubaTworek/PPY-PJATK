@@ -1,9 +1,8 @@
 import sys
 import unittest
 
-from Repository.BasicRepository import Repository
-
 sys.path.append('C:/Users/kubat/IdeaProjects/PPY-PJATK/Quiz-App')
+from Repository.BasicRepository import Repository
 
 
 class BasicRepositoryTests(unittest.TestCase):

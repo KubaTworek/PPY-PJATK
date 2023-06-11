@@ -125,14 +125,20 @@ class Repository:
         return None
 
     def delete_category(self, category_id):
-        self.cursor.execute("DELETE FROM Subcategories WHERE Category_id = ?", (category_id,))
+        self.cursor.execute(
+            "DELETE FROM Answers WHERE Question_id IN (SELECT Question_id FROM Questions WHERE Subcategory_id IN (SELECT Subcategory_id FROM Subcategories WHERE Category_id = ?))",
+            (category_id,))
         self.cursor.execute(
             "DELETE FROM Questions WHERE Subcategory_id IN (SELECT Subcategory_id FROM Subcategories WHERE Category_id = ?)",
             (category_id,))
+        self.cursor.execute("DELETE FROM Subcategories WHERE Category_id = ?", (category_id,))
         self.cursor.execute("DELETE FROM Categories WHERE Category_id = ?", (category_id,))
         self.connection.commit()
 
     def delete_subcategory(self, subcategory_id):
+        self.cursor.execute(
+            "DELETE FROM Answers WHERE Question_id IN (SELECT Question_id FROM Questions WHERE Subcategory_id = ?)",
+            (subcategory_id,))
         self.cursor.execute("DELETE FROM Questions WHERE Subcategory_id = ?", (subcategory_id,))
         self.cursor.execute("DELETE FROM Subcategories WHERE Subcategory_id = ?", (subcategory_id,))
         self.connection.commit()

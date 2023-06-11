@@ -2,9 +2,8 @@ import sys
 import unittest
 from unittest.mock import MagicMock
 
-from Service.Service import Service
-
 sys.path.append('C:/Users/kubat/IdeaProjects/PPY-PJATK/Quiz-App')
+from Service.Service import Service
 
 
 class ServiceTests(unittest.TestCase):

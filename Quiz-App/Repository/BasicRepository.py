@@ -82,28 +82,30 @@ class Repository:
         category_temp = self.__find_category_by_id(category_id)
         if category_temp is not None:
             self.categories.remove(category_temp)
+            subcategories_to_remove = [subcategory for subcategory in self.subcategories if
+                                       subcategory.get('Category_id') == category_id]
+            subcategory_ids_to_remove = [subcategory.get('Subcategory_id') for subcategory in subcategories_to_remove]
             self.subcategories = [subcategory for subcategory in self.subcategories if
                                   subcategory.get('Category_id') != category_id]
+            questions_to_remove = [question for question in self.questions if
+                                   question.get('Subcategory_id') in subcategory_ids_to_remove]
+            question_ids_to_remove = [question.get('Question_id') for question in questions_to_remove]
             self.questions = [question for question in self.questions if
-                              question.get('Subcategory_id') not in [subcategory.get('Subcategory_id') for subcategory
-                                                                     in self.subcategories if
-                                                                     subcategory.get('Category_id') == category_id]]
+                              question.get('Subcategory_id') not in subcategory_ids_to_remove]
             self.answers = [answer for answer in self.answers if
-                            answer.get('Question_id') not in [question.get('Question_id') for question in self.questions
-                                                              if question.get('Subcategory_id') in [
-                                                                  subcategory.get('Subcategory_id') for subcategory in
-                                                                  self.subcategories if
-                                                                  subcategory.get('Category_id') == category_id]]]
+                            answer.get('Question_id') not in question_ids_to_remove]
 
     def delete_subcategory(self, subcategory_id):
         subcategory_temp = self.__find_subcategory_by_id(subcategory_id)
         if subcategory_temp is not None:
             self.subcategories.remove(subcategory_temp)
+            question_ids_to_remove = [question.get('Question_id') for question in self.questions if
+                                      question.get('Subcategory_id') == subcategory_id]
+            self.answers = [answer for answer in self.answers if
+                            answer.get('Question_id') not in question_ids_to_remove]
             self.questions = [question for question in self.questions if
                               question.get('Subcategory_id') != subcategory_id]
-            self.answers = [answer for answer in self.answers if
-                            answer.get('Question_id') not in [question.get('Question_id') for question in self.questions
-                                                              if question.get('Subcategory_id') == subcategory_id]]
+
 
     def delete_question(self, question_id):
         question_temp = self.__find_question_by_id(question_id)

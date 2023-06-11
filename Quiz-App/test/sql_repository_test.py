@@ -1,10 +1,9 @@
 import sys
 import unittest
-
 import pyodbc
-from Repository.SqlServerRepository import Repository
 
 sys.path.append('C:/Users/kubat/IdeaProjects/PPY-PJATK/Quiz-App')
+from Repository.SqlServerRepository import Repository
 
 
 class RepositoryTests(unittest.TestCase):
@@ -225,6 +224,10 @@ class RepositoryTests(unittest.TestCase):
             "INSERT INTO Questions (Question_id, Question, Subcategory_id) VALUES (1, 'Question 1', 1)")
         self.repository.cursor.execute(
             "INSERT INTO Questions (Question_id, Question, Subcategory_id) VALUES (2, 'Question 2', 2)")
+        self.repository.cursor.execute(
+            "INSERT INTO Answers (Answer_id, Answer, Is_correct, Question_id) VALUES (1, 'Answer 1', 1, 1)")
+        self.repository.cursor.execute(
+            "INSERT INTO Answers (Answer_id, Answer, Is_correct, Question_id) VALUES (2, 'Answer 2', 0, 2)")
 
         # When
         self.repository.delete_subcategory(1)
@@ -235,6 +238,10 @@ class RepositoryTests(unittest.TestCase):
         self.assertEqual(count, 1)
 
         self.repository.cursor.execute("SELECT COUNT(*) FROM Questions")
+        count = self.repository.cursor.fetchone()[0]
+        self.assertEqual(count, 1)
+
+        self.repository.cursor.execute("SELECT COUNT(*) FROM Answers")
         count = self.repository.cursor.fetchone()[0]
         self.assertEqual(count, 1)
 
