@@ -267,8 +267,9 @@ class Controller:
         sys.exit(0)
 
     def __resolve_test(self, test):
-        if len(test) > self.max_score:
+        if len(test) >= self.max_score:
             self.max_score = len(test)
+            self.current_score = 0
 
         window = tk.Tk()
         window.title("Test Resolution")
@@ -335,8 +336,8 @@ class Controller:
 
 def center_window(window):
     window.update_idletasks()
-    window_width = window.winfo_reqwidth()
-    window_height = window.winfo_reqheight()
+    window_width = 300
+    window_height = 350
     screen_width = window.winfo_screenwidth()
     screen_height = window.winfo_screenheight()
     x = (screen_width // 2) - (window_width // 2)
